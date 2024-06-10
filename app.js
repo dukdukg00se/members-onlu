@@ -4,13 +4,24 @@ const logger = require('morgan');
 const createError = require('http-errors');
 const path = require('path'); // core node module for parsing file & dir paths
 
+// Initialize app
 const app = express();
 
 // View engine setup
-// Specify global for eslint
-/* global __dirname */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// Set up mongoose connection
+const mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
+const mongoDB =
+  'mongodb+srv://willwkhu:VqJaLHm0JrGFNVrQ@cluster0.jtd1fc6.mongodb.net/members_only?retryWrites=true&w=majority&appName=Cluster0';
+//mongo user: coolUser
+// pw: VqJaLHm0JrGFNVrQ
+main().catch((err) => console.log('Oops! ', err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
 
 // Set up express-session
 const session = require('express-session');
@@ -53,6 +64,8 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-app.listen(3000, () => {
-  console.log('Beep Beep Boop.. Listening on port 3000');
-});
+// app.listen(3000, () => {
+//   console.log('Beep Beep Boop.. Listening on port 3000');
+// });
+
+module.exports = app;
