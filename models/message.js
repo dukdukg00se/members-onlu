@@ -5,7 +5,7 @@ const MessageSchema = new Schema({
   title: {
     type: String,
     required: true,
-    maxLength: [10, 'Title is too long'],
+    maxLength: [50, 'Title is too long'],
   },
   message: {
     type: String,
@@ -17,6 +17,7 @@ const MessageSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
+    message: 'Something wrong with user input',
   },
   timestamp: {
     type: Date,
