@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const createError = require('http-errors');
 const path = require('path'); // core node module for parsing file & dir paths
+const indexRouter = require('./routes/index');
 
 // Initialize app
 const app = express();
@@ -41,9 +42,12 @@ app.use(logger('dev'));
 // Instead of req.headers.cookie access w/ req.cookies
 app.use(cookieParser());
 
-app.get('/', (req, res, next) => {
-  res.render('index');
-});
+// ** Routes **
+app.use('/', indexRouter);
+
+// app.get('/', (req, res, next) => {
+//   res.render('index');
+// });
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
