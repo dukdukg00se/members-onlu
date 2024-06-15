@@ -3,7 +3,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const createError = require('http-errors');
 const path = require('path'); // core node module for parsing file & dir paths
+
 const indexRouter = require('./routes/index');
+const adminRouter = require('./routes/admin');
 
 // Initialize app
 const app = express();
@@ -16,7 +18,6 @@ app.set('view engine', 'ejs');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 const mongoDB = process.env.MONGODB_URI;
-
 main().catch((err) => console.log('Oops! ', err));
 async function main() {
   await mongoose.connect(mongoDB);
@@ -36,18 +37,16 @@ app.use(session(sessionConfig));
 
 // Log requests to console
 app.use(logger('dev'));
-
 // Parse req header cookies
 // Adds req.cookies obj with cookies
 // Instead of req.headers.cookie access w/ req.cookies
 app.use(cookieParser());
+// Built-in middleware to serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // ** Routes **
 app.use('/', indexRouter);
-
-// app.get('/', (req, res, next) => {
-//   res.render('index');
-// });
+app.use('/admin', adminRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
