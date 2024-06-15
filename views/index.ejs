@@ -3,5 +3,22 @@
   <%- include('./partials/head.ejs') %>
   <body>
     <%- include('./partials/header.ejs') %>
+
+    <% if (messages.length) { %>
+      <ul>
+        <% messages.forEach(msg => { %>
+          <div>
+            <h3><%= msg.title %></h3>
+            <p> <%= msg.message %></p>
+            <div>
+              <p><%= msg.timestamp_formatted %></p>
+              <p>- <cite><%= msg.user.first_name %> <%= msg.user.last_name %></cite></p>
+            </div>
+          </div>
+        <% }) %>
+      </ul>
+    <% } else { %>
+
+    <% } %>
   </body>
 </html>

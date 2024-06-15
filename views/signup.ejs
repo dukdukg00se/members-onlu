@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <main>
+      <h1><%= title %></h1>
+      <form method="post">
+        <label for="first_name">First name:</label>
+        <input
+          id="first_name"
+          name="first_name"
+          type="text"
+          required
+          value="<%=(typeof account === 'undefined') ? '' : account.first_name%>"
+        />
+
+        <label for="last_name">Last name:</label>
+        <input
+          id="last_name"
+          name="last_name"
+          type="text"
+          required
+          value="<%=(typeof account === 'undefined') ? '' : account.last_name%>"
+        />
+
+        <label for="email">Email:</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          value="<%=(typeof account === 'undefined') ? '' : account.email%>"
+        />
+
+        <label for="password">Password:</label>
+        <input id="password" name="password" type="password" required />
+
+        <label for="account">Account Type:</label>
+        <select id="account" name="account">
+          <option value="">--Select account type--</option>
+          <% ['basic', 'premium'].forEach(type => { %>
+            <% if (typeof account !== 'undefined' && account.type === type) { %>
+              <option value="<%=type%>" selected><%=type%></option>
+            <% } else { %>
+              <option value="<%=type%>"><%=type%></option>
+            <% } %>
+          <% }) %>
+        </select>
+
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+  </body>
+</html>
