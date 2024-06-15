@@ -25,4 +25,9 @@ const MessageSchema = new Schema({
   },
 });
 
+// Virtual to return formatted data & time
+MessageSchema.virtual('timestamp_formatted').get(function () {
+  return this.timestamp.toLocaleString();
+});
+
 module.exports = mongoose.model('Message', MessageSchema);
