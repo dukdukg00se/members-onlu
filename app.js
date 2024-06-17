@@ -35,14 +35,31 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 
+// Set up passport authentication
+const passport = require('passport');
+require('./config/passport');
+app.use(passport.session());
+
 // Log requests to console
 app.use(logger('dev'));
+
+// Need both middlewares for POST and Put requests
+// See https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // Parse req header cookies
 // Adds req.cookies obj with cookies
 // Instead of req.headers.cookie access w/ req.cookies
 app.use(cookieParser());
 // Built-in middleware to serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Set local user variable
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 // ** Routes **
 app.use('/', indexRouter);
