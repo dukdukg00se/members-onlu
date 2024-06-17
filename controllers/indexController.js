@@ -1,5 +1,8 @@
 const Message = require('../models/message');
+const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const passport = require('passport');
+require('../config/passport');
 
 const asyncHandler = require('express-async-handler');
 
@@ -15,17 +18,35 @@ exports.index = asyncHandler(async (req, res, next) => {
 });
 
 exports.login_get = (req, res, next) => {
-  res.render('login', { title: 'Account Login' });
+  res.render('login_form', { title: 'Account Login' });
 };
 
-exports.login_post = asyncHandler(async (req, res, next) => {
-  res.send('Repond with login post resource');
+exports.login_post = passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/signup',
 });
 
 exports.signup_get = (req, res, next) => {
-  res.render('signup', { title: 'Account Signup' });
+  res.render('signup_form', { title: 'Account Signup' });
 };
 
 exports.signup_post = asyncHandler(async (req, res, next) => {
-  res.send('Resond with signup post resource');
+  const hash = await bcrypt.hash(req.body.password, 10);
+
+  const user = new User({
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    email: req.body.username,
+    password: hash,
+    status: req.body.status,
+  });
+
+  await user.save();
+  res.redirect('/');
 });
+
+exports.message_create_get = (req, res, next) => {
+  res.render('message_form', {
+    title: 'New Message',
+  });
+};
