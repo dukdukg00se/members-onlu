@@ -10,15 +10,24 @@
           <div>
             <h3><%= msg.title %></h3>
             <p> <%= msg.message %></p>
-            <div>
-              <p><%= msg.timestamp_formatted %></p>
-              <p>- <cite><%= msg.user.first_name %> <%= msg.user.last_name %></cite></p>
-            </div>
+            <% if (typeof user !== 'undefined' && user.status === 'premium') { %>
+              <div>
+                <p><%= msg.timestamp_formatted %></p>
+                <p>- <cite><%= msg.user.first_name %> <%= msg.user.last_name %></cite></p>
+              </div>
+            <% } %>
+
           </div>
         <% }) %>
       </ul>
     <% } else { %>
+      <h2>Message board is currently empty.</h2>
+    <% } %>
 
+    <% if (typeof user !== 'undefined') { %>
+      <a href="/create">
+        <button>New Message</button>
+      </a>
     <% } %>
   </body>
 </html>
