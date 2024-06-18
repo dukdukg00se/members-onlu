@@ -15,4 +15,7 @@ router.post('/signup', index_controller.signup_post);
 
 router.get('/create', isAuth, index_controller.message_create_get);
 
+router.post('/create', isAuth, index_controller.message_create_post);
+
+router.get('/logout', index_controller.logout);
 module.exports = router;
