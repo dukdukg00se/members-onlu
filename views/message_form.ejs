@@ -4,5 +4,26 @@
   <body>
     <%- include ('./partials/header.ejs') %>
     <h1>New Message</h1>
+
+    <form method="post">
+      <label for="title">Title:</label>
+      <input
+        id="title"
+        name="title"
+        type="text"
+        placeholder="Message title"
+        required
+      />
+      <label for="message">Message:</label>
+      <textarea
+        id="message"
+        name="message"
+        placeholder="Your new message..."
+        maxlength="180"
+        minlength="1"
+        required
+      ></textarea>
+      <button type="submit">Submit</button>
+    </form>
   </body>
 </html>
