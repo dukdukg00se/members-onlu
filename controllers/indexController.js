@@ -50,3 +50,21 @@ exports.message_create_get = (req, res, next) => {
     title: 'New Message',
   });
 };
+
+exports.message_create_post = asyncHandler(async (req, res, next) => {
+  const message = new Message({
+    title: req.body.title,
+    message: req.body.message,
+    user: req.user._id,
+  });
+
+  await message.save();
+  res.redirect('/');
+});
+
+exports.logout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+  });
+  res.redirect('/');
+};
